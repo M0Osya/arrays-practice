@@ -7,7 +7,7 @@ namespace Task1.Statistics
     {
         static void Main(string[] args)
         {
-            Random random = new Random();
+            Random random = new Random(100);
             int[] numbers = new int[10];
 
             for (int i = 0; i < numbers.Length; i++)
