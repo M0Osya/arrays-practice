@@ -1,56 +1,71 @@
-using System;
+﻿using System;
 
-namespace Task2.InputSort
+class Program
 {
-    class Program 
+    static void Main()
     {
-        static void Main(string[] args)
+        int n;
+
+        while (true)
         {
-            int n;
+            Console.Write("Введите количество элементов: ");
+
+            if (int.TryParse(Console.ReadLine(), out n) && n > 0)
+                break;
+
+            Console.WriteLine("Ошибка: количество элементов должно быть больше 0.");
+        }
+
+        int[] numbers = new int[n];
+
+        for (int i = 0; i < n; i++)
+        {
             while (true)
             {
-                Console.Write("Введите кол-во элементов: ");
-                if (int.TryParse(Console.ReadLine(), out n) && n > 0)
+                Console.Write($"Элемент [{i}]: ");
+
+                try
                 {
+                    numbers[i] = int.Parse(Console.ReadLine()!);
                     break;
                 }
-            }
-            int[] numbers = new int[n];
-            for (int i = 0; i < n; i++)
-            {
-                Console.Write($"Элемент [{i}]: ");
-                numbers[i] = int.Parse(Console.ReadLine());
-                
-            }
-
-            Console.WriteLine();
-            Console.WriteLine($"Исходный маaссив: {string.Join(", ", numbers)}");
-
-            int[] reversed = (int[])numbers.Clone();
-            Array.Reverse(reversed);
-            Console.WriteLine($"Обратный порядок {string.Join(", ", reversed)}");
-
-            Array.Sort(numbers);
-            Console.WriteLine($"Отсортированный массив {string.Join(", ", numbers)}");
-
-            int max = numbers[0];
-            int min = numbers[0];
-
-            for (int i = 1; i < numbers.Length; i++)
-            {
-                if (numbers[i] > max)
+                catch (FormatException)
                 {
-                    max = numbers[i];
+                    Console.WriteLine("Ошибка: Введите целое число!");
                 }
-                if (numbers[i] < min)
+                catch (OverflowException)
                 {
-                    min = numbers[i];
+                    Console.WriteLine("Ошибка: Число слишком большое!");
                 }
             }
-
-            Console.WriteLine($"Максимум: {max}");
-            Console.WriteLine($"Минимум: {min}");
         }
-    }
 
+        Console.WriteLine("Исходный массив:  " + string.Join(", ", numbers));
+
+        int[] reversed = new int[n];
+
+        for (int i = 0; i < n; i++)
+            reversed[i] = numbers[n - 1 - i];
+
+        Console.WriteLine("Обратный порядок: " + string.Join(", ", reversed));
+
+        Array.Sort(numbers);
+
+        Console.WriteLine("Отсортированный:  " + string.Join(", ", numbers));
+
+        int min = numbers[0];
+        int max = numbers[0];
+
+        for (int i = 1; i < numbers.Length; i++)
+        {
+            if (numbers[i] < min)
+                min = numbers[i];
+
+            if (numbers[i] > max)
+                max = numbers[i];
+        }
+
+        Console.WriteLine("Максимум: " + max);
+        Console.WriteLine("Минимум: " + min);
+    }
 }
